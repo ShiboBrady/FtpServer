@@ -1,0 +1,4 @@
+FtpServer
+*.o
+*.swp
+bin/
