@@ -1,13 +1,32 @@
-.PHONY:clean
-CC=gcc
-CFLAGS=-Wall -g
-BIN=FtpServer
-OBJS=src/main.o src/sysutil.o src/session.o src/strutil.o src/ftp_nobody.o src/ftp_proto.o src/configure.o src/parse_conf.o src/command_map.o src/trans_data.o src/priv_sock.o src/priv_command.o src/trans_ctrl.o src/hash.o src/ftp_assist.o
-LIB=-lcrypt
+CC = gcc
+
+CFLAGS = -Wall -g
+
+VPATH = :src
+
+LIB = -lcrypt
+
+EXE_DIR = bin
+
+OBJ_DIR = obj
+
+SRC_DIR = src
+
+INCLUDE_DIR = include
+
+BIN = $(EXE_DIR)/FtpServer
+
+OBJS = $(subst .c,.o,$(subst $(SRC_DIR),$(OBJ_DIR),$(wildcard $(SRC_DIR)/*.c)))
+
+$(shell mkdir -p $(OBJ_DIR) $(EXE_DIR))
+
+.PHONY : clean
+
 $(BIN):$(OBJS)
-	$(CC) $(CFLAGS) $^ -o bin/$@ $(LIB)
-	rm -f src/*.o
-%.o:%.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I./include
+	$(CC) $(CFLAGS) $^ -o $@ $(LIB)
+
+$(OBJ_DIR)/%.o:%.c
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCLUDE_DIR)
+
 clean:
-	rm -f src/*.o bin/$(BIN)
+	rm -rf $(OBJ_DIR) $(EXE_DIR)

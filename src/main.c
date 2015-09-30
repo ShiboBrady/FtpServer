@@ -20,7 +20,7 @@ int main(int argc, const char *argv[])
     setup_signal_chld();
 
     //读取配置文件
-    parseconf_load_file("ftpserver.conf");
+    parseconf_load_file("conf/ftpserver.conf");
 
     //初始化hash表
     init_hash();
